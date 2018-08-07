@@ -16,6 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //.将状态栏变为白色
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.backgroundColor = UIColor.white
+        window?.rootViewController = BaseTabBarViewController()
+        window?.makeKeyAndVisible()
+        
         return true
     }
 
