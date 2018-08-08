@@ -86,10 +86,6 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MAINLISTCELL", for: indexPath) as! MainListCollectionViewCell
-//        cell.iconImg.image = UIImage(named: "3.jpg")
-//        cell.headImg.image = UIImage(named: "headImg.jpg")
-//        cell.nameLabel.text = "天王盖地虎"
-//        cell.titleLabel.text = "世界本无路,走的人多了,也就成了路"
         cell.refreshUI(info: arr[indexPath.item] as! NSDictionary)
         return cell
     }
