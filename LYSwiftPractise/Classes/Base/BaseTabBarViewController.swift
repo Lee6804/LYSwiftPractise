@@ -9,11 +9,20 @@
 import UIKit
 
 class BaseTabBarViewController: UITabBarController {
+    
+    fileprivate lazy var backView: UIView = { [unowned self] in
+        let bView: UIView = UIView();
+        bView.backgroundColor = UIColor.white
+        return bView
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        self.backView.frame = CGRect(x: 0, y: 0, width: MainWidth, height: 49)
+        self.tabBar.addSubview(self.backView)
         
         let mainVC = MainVC()
         self.addChildViewController(childVC: mainVC, title: "首页", norImgStr: "b_menuMain_unselect", seleImgStr: "b_menuMain_select")
