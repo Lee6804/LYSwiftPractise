@@ -1,0 +1,6 @@
+module Pods_LYSwiftPractise {
+  umbrella header "Pods-LYSwiftPractise-umbrella.h"
+
+  export *
+  module * { export * }
+}

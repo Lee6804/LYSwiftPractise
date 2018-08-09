@@ -28,7 +28,7 @@ class BaseTabBarViewController: UITabBarController {
         self.addChildViewController(childVC: mainVC, title: "首页", norImgStr: "b_menuMain_unselect", seleImgStr: "b_menuMain_select")
         
         let messageVC = MessageVC()
-        self.addChildViewController(childVC: messageVC, title: "分享", norImgStr: "b_menuBar_unselect", seleImgStr: "b_menuBar_select")
+        self.addChildViewController(childVC: messageVC, title: "影讯", norImgStr: "b_menuBar_unselect", seleImgStr: "b_menuBar_select")
         
         let mineVC = MineVC()
         self.addChildViewController(childVC: mineVC, title: "我的", norImgStr: "b_menuMine_unselect", seleImgStr: "b_menuMine_select")
