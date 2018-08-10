@@ -39,6 +39,11 @@ class MainVC: UIViewController {
 
         // Do any additional setup after loading the view.
         
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.barTintColor = MAINCOLOR
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+
         arr.append(dic1 as NSObject)
         arr.append(dic2 as NSObject)
         arr.append(dic3 as NSObject)

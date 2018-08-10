@@ -21,13 +21,29 @@ class MessageVC: UIViewController {
         tabV.register(MovieListCell.self, forCellReuseIdentifier: "MOVIELISTCELL")
         return tabV
     }()
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+//    }
+//    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.barTintColor = MAINCOLOR
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
         self.view.addSubview(self.tableView)
+        self.navigationController?.delegate = self as? UINavigationControllerDelegate
         self.loadData()
         
     }
@@ -43,17 +59,16 @@ class MessageVC: UIViewController {
         print(message: jsonDic)
         
         let arr = jsonDic["subjects"] as? NSArray
-        
-        print(message: arr?.count)
-        
         for i in 0..<arr!.count {
             let model = DBMovieTopListModel()
             model.initWithDic(infoDic: (arr![i] as? NSDictionary)!)
             dataArr.append(model)
         }
-       
-        print(message: dataArr)
         self.tableView.reloadData()
+    }
+    
+    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -97,6 +112,7 @@ extension MessageVC: UITableViewDelegate, UITableViewDataSource {
         print(message: model?.movieId)
         let detaiVC = MovieDetailVC()
         detaiVC.movieId = (model?.movieId)!
+        detaiVC.rankIndex = indexPath.row + 1
         detaiVC.title = (model?.title)! as String
         self.navigationController?.pushViewController(detaiVC, animated: true)
     }

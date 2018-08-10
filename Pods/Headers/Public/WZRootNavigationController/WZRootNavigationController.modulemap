@@ -1,0 +1,6 @@
+module WZRootNavigationController {
+  umbrella header "WZRootNavigationController-umbrella.h"
+
+  export *
+  module * { export * }
+}

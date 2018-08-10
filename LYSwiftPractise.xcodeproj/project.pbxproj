@@ -10,6 +10,7 @@
 		4FC451BA1590AFE24447B189 /* libPods-LYSwiftPractise.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BB803BAED31BDBFFCE75EA5 /* libPods-LYSwiftPractise.a */; };
 		B02E4050211BCCA0007660C0 /* MovieListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02E404F211BCCA0007660C0 /* MovieListCell.swift */; };
 		B02E4052211C17A9007660C0 /* MovieDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02E4051211C17A9007660C0 /* MovieDetailVC.swift */; };
+		B02E4055211C400B007660C0 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02E4054211C400B007660C0 /* BaseViewController.swift */; };
 		B03277F4211ACA73005E8F5F /* MainListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03277F3211ACA73005E8F5F /* MainListCollectionViewCell.swift */; };
 		B03277FA211ACDBA005E8F5F /* headImg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B03277F7211ACDBA005E8F5F /* headImg.jpg */; };
 		B03277FB211ACDBA005E8F5F /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B03277F8211ACDBA005E8F5F /* 1.jpg */; };
@@ -18,6 +19,7 @@
 		B0327800211AD4E6005E8F5F /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B03277FE211AD4E6005E8F5F /* 3.jpg */; };
 		B0327802211AE99D005E8F5F /* top250.json in Resources */ = {isa = PBXBuildFile; fileRef = B0327801211AE99D005E8F5F /* top250.json */; };
 		B0327804211AEE45005E8F5F /* DBMovieTopListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0327803211AEE45005E8F5F /* DBMovieTopListModel.swift */; };
+		B05E5012211D231100A90495 /* MovieDetailHeadview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05E5011211D231100A90495 /* MovieDetailHeadview.swift */; };
 		B08AE7CF21197F6F00466CED /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08AE7CE21197F6F00466CED /* BaseNavigationController.swift */; };
 		B08AE7D121197F9C00466CED /* BaseTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08AE7D021197F9C00466CED /* BaseTabBarViewController.swift */; };
 		B08AE7D32119807800466CED /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08AE7D22119807800466CED /* Const.swift */; };
@@ -36,6 +38,8 @@
 		4964E49B16E620D797A94B16 /* Pods-LYSwiftPractise.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LYSwiftPractise.release.xcconfig"; path = "Pods/Target Support Files/Pods-LYSwiftPractise/Pods-LYSwiftPractise.release.xcconfig"; sourceTree = "<group>"; };
 		B02E404F211BCCA0007660C0 /* MovieListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListCell.swift; sourceTree = "<group>"; };
 		B02E4051211C17A9007660C0 /* MovieDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailVC.swift; sourceTree = "<group>"; };
+		B02E4053211C33E3007660C0 /* Practise-Brigding-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Practise-Brigding-Header.h"; sourceTree = "<group>"; };
+		B02E4054211C400B007660C0 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		B03277F3211ACA73005E8F5F /* MainListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListCollectionViewCell.swift; sourceTree = "<group>"; };
 		B03277F7211ACDBA005E8F5F /* headImg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = headImg.jpg; sourceTree = "<group>"; };
 		B03277F8211ACDBA005E8F5F /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
@@ -44,6 +48,7 @@
 		B03277FE211AD4E6005E8F5F /* 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3.jpg; sourceTree = "<group>"; };
 		B0327801211AE99D005E8F5F /* top250.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = top250.json; sourceTree = "<group>"; };
 		B0327803211AEE45005E8F5F /* DBMovieTopListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBMovieTopListModel.swift; sourceTree = "<group>"; };
+		B05E5011211D231100A90495 /* MovieDetailHeadview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailHeadview.swift; sourceTree = "<group>"; };
 		B08AE7CE21197F6F00466CED /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		B08AE7D021197F9C00466CED /* BaseTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarViewController.swift; sourceTree = "<group>"; };
 		B08AE7D22119807800466CED /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
@@ -196,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				B08AE7D22119807800466CED /* Const.swift */,
+				B02E4053211C33E3007660C0 /* Practise-Brigding-Header.h */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -222,6 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				B02E404F211BCCA0007660C0 /* MovieListCell.swift */,
+				B05E5011211D231100A90495 /* MovieDetailHeadview.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -240,6 +247,7 @@
 			children = (
 				B08AE7CE21197F6F00466CED /* BaseNavigationController.swift */,
 				B08AE7D021197F9C00466CED /* BaseTabBarViewController.swift */,
+				B02E4054211C400B007660C0 /* BaseViewController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -388,11 +396,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B02E4055211C400B007660C0 /* BaseViewController.swift in Sources */,
 				B02E4050211BCCA0007660C0 /* MovieListCell.swift in Sources */,
 				B0F633F921193CEF00C527BD /* ViewController.swift in Sources */,
 				B0F1545C21198811005FCD9D /* MineVC.swift in Sources */,
 				B0F15458211987E0005FCD9D /* MainVC.swift in Sources */,
 				B0F633F721193CEF00C527BD /* AppDelegate.swift in Sources */,
+				B05E5012211D231100A90495 /* MovieDetailHeadview.swift in Sources */,
 				B08AE7CF21197F6F00466CED /* BaseNavigationController.swift in Sources */,
 				B0F1545A21198803005FCD9D /* MessageVC.swift in Sources */,
 				B08AE7D121197F9C00466CED /* BaseTabBarViewController.swift in Sources */,
@@ -544,6 +554,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.LYSwiftPractise.LYSwiftPractise;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/shengliu/Desktop/LY-Swift/LYSwiftPractise/LYSwiftPractise/Common/Practise-Brigding-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -561,6 +572,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.LYSwiftPractise.LYSwiftPractise;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/shengliu/Desktop/LY-Swift/LYSwiftPractise/LYSwiftPractise/Common/Practise-Brigding-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

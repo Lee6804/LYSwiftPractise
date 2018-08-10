@@ -8,19 +8,48 @@
 
 import UIKit
 
-class MovieDetailVC: UIViewController {
+class MovieDetailVC: BaseViewController {
     
     var movieId = NSString()
-
+    var rankIndex = NSInteger()
+    
+    var dataArr:[NSObject] = [NSObject]()
+    var infoDic:NSDictionary = NSDictionary()
+    
+    fileprivate lazy var headView:MovieDetailHeadview = { [weak self] in
+        let bView = MovieDetailHeadview(frame: CGRect(x: 0, y: 0, width: MainWidth, height: 0))
+        bView.isHidden = true
+        return bView
+        }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(),for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        self.navigationController?.navigationBar.shadowImage = nil
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
         self.view.backgroundColor = BACKGROUNGCOLOR
         
         print(message: movieId)
         GETACtion()
+        
+        self.tableView.frame = CGRect(x: 0, y: -TopNavBarHeight, width: MainWidth, height: MainHeight + TopNavBarHeight)
+        self.tableView.tableHeaderView = self.headView
+        self.tableView.isHidden = true
+        self.view.addSubview(self.tableView)
+        self.tableView.rowHeight = 100
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,19 +90,45 @@ class MovieDetailVC: UIViewController {
             //转Json
             let jsonData:NSDictionary = try! JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! NSDictionary
             print(jsonData)
+            self.infoDic = jsonData
+//            let arr = jsonData["subjects"] as? NSArray
+//            for i in 0..<arr!.count {
+//                let model = DBMovieTopListModel()
+//                model.initWithDic(infoDic: (arr![i] as? NSDictionary)!)
+//                self.dataArr.append(model)
+//            }
+            
+            DispatchQueue.main.async {
+                self.tableView.isHidden = false
+                self.headView.refreshUI(infoDic: self.infoDic , index: self.rankIndex)
+                self.headView.frame = CGRect(x: 0, y: 0, width: MainWidth, height: self.headView.headViewHeight())
+                self.tableView.reloadData()
+                
+            }
+            
         }
         //请求开始
         dataTask.resume()
     }
     
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+extension MovieDetailVC {
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
-    */
-
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 8
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let resuId = "resuId"
+        var cell = tableView.dequeueReusableCell(withIdentifier: resuId)
+        if cell == nil {
+            cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: resuId)
+        }
+        return cell!
+    }
 }

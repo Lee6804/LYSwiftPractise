@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import WZRootNavigationController
 
-class BaseNavigationController: UINavigationController {
+class BaseNavigationController: WZRootNavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,9 @@ class BaseNavigationController: UINavigationController {
         }
         super.pushViewController(viewController, animated: animated)
     }
+    
+    
+    
     /*
     // MARK: - Navigation
 

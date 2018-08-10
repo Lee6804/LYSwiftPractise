@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 let MianScreen = UIScreen.main.bounds
 
 let MainWidth = UIScreen.main.bounds.width
@@ -19,6 +17,9 @@ let MainHeight = UIScreen.main.bounds.height
 let MAINCOLOR = UIColor(red: 30/255, green: 102/255, blue: 207/255, alpha: 1)
 
 let BACKGROUNGCOLOR = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+
+let TopNavBarHeight = UIApplication.shared.statusBarFrame.height + 44
+
 
 func print<T>(message : T, file : String = #file, lineNumber : Int = #line) {
     #if DEBUG

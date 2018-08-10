@@ -51,10 +51,8 @@ class BaseTabBarViewController: UITabBarController {
         var seleImg = UIImage(named: seleImgStr)
         seleImg = seleImg?.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
         
-        let navVC = BaseNavigationController()
+        let navVC = BaseNavigationController(rootViewController: childVC)
         navVC.tabBarItem = UITabBarItem(title: title, image: norImg, selectedImage: seleImg)
-        
-        navVC.addChildViewController(childVC)
         
         self.addChildViewController(navVC)
     }

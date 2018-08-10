@@ -1,16 +1,32 @@
 PODS:
+  - RTRootNavigationController (0.6.7):
+    - RTRootNavigationController/Core (= 0.6.7)
+  - RTRootNavigationController/Core (0.6.7)
+  - SDWebImage (4.4.2):
+    - SDWebImage/Core (= 4.4.2)
+  - SDWebImage/Core (4.4.2)
   - SnapKit (3.0.2)
+  - WZRootNavigationController (0.2.0)
 
 DEPENDENCIES:
+  - RTRootNavigationController
+  - SDWebImage
   - SnapKit (~> 3.0.2)
+  - WZRootNavigationController
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - RTRootNavigationController
+    - SDWebImage
     - SnapKit
+    - WZRootNavigationController
 
 SPEC CHECKSUMS:
+  RTRootNavigationController: d6aa6cbb78a3eaecea4f6e4df63f15dd887836b8
+  SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
+  WZRootNavigationController: 2e70c375e59680ee46337f79b9f2c5ec7d07102d
 
-PODFILE CHECKSUM: 7cbc3a8ecc9ca928b3a9001f71e6d4699e2f7476
+PODFILE CHECKSUM: 3c847c4cd38dd75b995adf40e93d7942f8e59a4e
 
 COCOAPODS: 1.5.3
