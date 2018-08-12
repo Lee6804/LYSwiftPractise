@@ -83,6 +83,11 @@ extension BaseViewController: UITableViewDelegate , UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
         return 0
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+    }
+    
 }
 
 

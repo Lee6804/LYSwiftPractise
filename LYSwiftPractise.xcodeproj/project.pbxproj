@@ -85,6 +85,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9B2AE90E211EC4160016CC4F /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
 		B03277F5211ACDA0005E8F5F /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,13 +111,6 @@
 				B03277F7211ACDBA005E8F5F /* headImg.jpg */,
 			);
 			path = Images;
-			sourceTree = "<group>";
-		};
-		B08AE7B92119729700466CED /* Tools */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Tools;
 			sourceTree = "<group>";
 		};
 		B08AE7BA2119729700466CED /* Appdelegate */ = {
@@ -274,9 +274,9 @@
 			isa = PBXGroup;
 			children = (
 				B08AE7BA2119729700466CED /* Appdelegate */,
+				9B2AE90E211EC4160016CC4F /* Tools */,
 				B03277F5211ACDA0005E8F5F /* Resource */,
 				B08AE7C82119729700466CED /* Common */,
-				B08AE7B92119729700466CED /* Tools */,
 				B08AE7BB2119729700466CED /* Classes */,
 				B0F633F821193CEF00C527BD /* ViewController.swift */,
 				B0F633FA21193CEF00C527BD /* Main.storyboard */,
@@ -554,7 +554,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.LYSwiftPractise.LYSwiftPractise;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/shengliu/Desktop/LY-Swift/LYSwiftPractise/LYSwiftPractise/Common/Practise-Brigding-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/LYSwiftPractise/Common/Practise-Brigding-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -572,7 +572,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.LYSwiftPractise.LYSwiftPractise;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/shengliu/Desktop/LY-Swift/LYSwiftPractise/LYSwiftPractise/Common/Practise-Brigding-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/LYSwiftPractise/Common/Practise-Brigding-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

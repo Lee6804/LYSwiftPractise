@@ -25,7 +25,7 @@ class MovieDetailVC: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(),for: .default)
+        self.navigationController?.navigationBar.setBackgroundImage(self.halfAlphaBlackImage(imageAlpha: 0, viewColor: MAINCOLOR),for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
     }
     
@@ -52,6 +52,14 @@ class MovieDetailVC: BaseViewController {
         self.tableView.rowHeight = 100
     }
 
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let alphaChangeBoundary = MainWidth * (212 / 375) + 64
+        let offsetY = scrollView.contentOffset.y
+        let imgAlpha = (offsetY)/alphaChangeBoundary
+        self.navigationController?.navigationBar.setBackgroundImage(self.halfAlphaBlackImage(imageAlpha: imgAlpha, viewColor: MAINCOLOR),for: .default)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -131,4 +139,22 @@ extension MovieDetailVC {
         }
         return cell!
     }
+}
+
+//MAEK: 纯色image 可改变alpha
+extension MovieDetailVC {
+ 
+    func halfAlphaBlackImage(imageAlpha:CGFloat , viewColor:UIColor) -> UIImage {
+        let imageSize = CGSize(width: 50, height: 50)
+        UIGraphicsBeginImageContextWithOptions(imageSize, false, UIScreen.main.scale)
+        viewColor.withAlphaComponent(imageAlpha).set()
+        UIRectFill(CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height))
+        let pressesColorImg = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return pressesColorImg!
+    }
+    
+    
+    
+    
 }
