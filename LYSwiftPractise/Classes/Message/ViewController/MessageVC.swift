@@ -56,7 +56,7 @@ class MessageVC: UIViewController {
         
         let jsonDic:NSDictionary = try! JSONSerialization.jsonObject(with: data! as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
         
-        print(message: jsonDic)
+//        print(message: jsonDic)
         
         let arr = jsonDic["subjects"] as? NSArray
         for i in 0..<arr!.count {

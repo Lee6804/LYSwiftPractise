@@ -12,27 +12,50 @@ class MovieDetailVC: BaseViewController {
     
     var movieId = NSString()
     var rankIndex = NSInteger()
+    var isDisappear = true
     
     var dataArr:[NSObject] = [NSObject]()
     var infoDic:NSDictionary = NSDictionary()
     
     fileprivate lazy var headView:MovieDetailHeadview = { [weak self] in
         let bView = MovieDetailHeadview(frame: CGRect(x: 0, y: 0, width: MainWidth, height: 0))
+        bView.delegate = self
         bView.isHidden = true
         return bView
+        }()
+    
+    fileprivate lazy var tableView: UITableView = { [unowned self] in
+        let tab = UITableView(frame: CGRect(x: 0, y: -TopNavBarHeight, width: MainWidth, height: MainHeight + TopNavBarHeight), style: UITableViewStyle.plain)
+        tab.delegate = self
+        tab.dataSource = self
+        tab.backgroundColor = BACKGROUNGCOLOR
+        tab.tableFooterView = UIView()
+        tab.tableHeaderView = self.headView
+        tab.isHidden = true
+        tab.rowHeight = 100
+        return tab
         }()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.navigationController?.navigationBar.setBackgroundImage(self.halfAlphaBlackImage(imageAlpha: 0, viewColor: MAINCOLOR),for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
+        //解决手势侧滑但不返回上一个界面时 重新回到页面 导航栏颜色问题
+        if self.isDisappear == true {
+            self.navigationController?.navigationBar.setBackgroundImage(self.halfAlphaBlackImage(imageAlpha: 0, viewColor: MAINCOLOR),for: .default)
+            self.navigationController?.navigationBar.shadowImage = UIImage()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.isDisappear = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         self.navigationController?.navigationBar.shadowImage = nil
+        self.isDisappear = true
     }
 
     override func viewDidLoad() {
@@ -45,21 +68,9 @@ class MovieDetailVC: BaseViewController {
         print(message: movieId)
         GETACtion()
         
-        self.tableView.frame = CGRect(x: 0, y: -TopNavBarHeight, width: MainWidth, height: MainHeight + TopNavBarHeight)
-        self.tableView.tableHeaderView = self.headView
-        self.tableView.isHidden = true
         self.view.addSubview(self.tableView)
-        self.tableView.rowHeight = 100
     }
 
-    
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let alphaChangeBoundary = MainWidth * (212 / 375) + 64
-        let offsetY = scrollView.contentOffset.y
-        let imgAlpha = (offsetY)/alphaChangeBoundary
-        self.navigationController?.navigationBar.setBackgroundImage(self.halfAlphaBlackImage(imageAlpha: imgAlpha, viewColor: MAINCOLOR),for: .default)
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -97,7 +108,7 @@ class MovieDetailVC: BaseViewController {
         let dataTask = session.dataTask(with: request as URLRequest) { (data, response, error) in
             //转Json
             let jsonData:NSDictionary = try! JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! NSDictionary
-            print(jsonData)
+//            print(jsonData)
             self.infoDic = jsonData
 //            let arr = jsonData["subjects"] as? NSArray
 //            for i in 0..<arr!.count {
@@ -121,17 +132,37 @@ class MovieDetailVC: BaseViewController {
     
 }
 
-extension MovieDetailVC {
+extension MovieDetailVC: UITableViewDelegate, UITableViewDataSource{
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view:UIView = UIView(frame: CGRect(x: 0, y: 0, width: MainWidth, height: 40))
+        view.backgroundColor = UIColor.red
+        return view
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+
+//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        let view:UIView = UIView(frame: CGRect(x: 0, y: 0, width: MainWidth, height: 0.1))
+//        view.backgroundColor = UIColor.clear
+//        return view
+//    }
+//
+//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return 0.1
+//    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 8
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let resuId = "resuId"
         var cell = tableView.dequeueReusableCell(withIdentifier: resuId)
         if cell == nil {
@@ -141,9 +172,10 @@ extension MovieDetailVC {
     }
 }
 
-//MAEK: 纯色image 可改变alpha
+
 extension MovieDetailVC {
  
+    //MAEK: 纯色image 可改变alpha
     func halfAlphaBlackImage(imageAlpha:CGFloat , viewColor:UIColor) -> UIImage {
         let imageSize = CGSize(width: 50, height: 50)
         UIGraphicsBeginImageContextWithOptions(imageSize, false, UIScreen.main.scale)
@@ -154,7 +186,21 @@ extension MovieDetailVC {
         return pressesColorImg!
     }
     
+    //MARK:scrollView滚动
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let alphaChangeBoundary = MainWidth - 128
+        let offsetY = scrollView.contentOffset.y
+        let imgAlpha = (offsetY)/alphaChangeBoundary
+        self.navigationController?.navigationBar.setBackgroundImage(self.halfAlphaBlackImage(imageAlpha: imgAlpha, viewColor: MAINCOLOR),for: .default)
+    }
     
+}
+
+extension MovieDetailVC: MovieDetialHeadViewDelegate {
     
-    
+    func showAllSum() {
+        self.headView.refreshUI(infoDic: self.infoDic , index: self.rankIndex)
+        self.headView.frame = CGRect(x: 0, y: 0, width: MainWidth, height: self.headView.headViewHeight())
+        self.tableView.reloadData()
+    }
 }

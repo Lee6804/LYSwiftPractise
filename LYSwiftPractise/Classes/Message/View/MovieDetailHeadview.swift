@@ -8,8 +8,15 @@
 
 import UIKit
 
-class MovieDetailHeadview: UIView {
+@objc protocol MovieDetialHeadViewDelegate: NSObjectProtocol {
 
+    @objc optional func showAllSum()
+}
+
+class MovieDetailHeadview: UIView {
+    
+    var isShowAll = false
+    
     //248 243 240
     fileprivate lazy var backView:UIView = { [unowned self] in
         let nView:UIView = UIView()
@@ -159,15 +166,42 @@ class MovieDetailHeadview: UIView {
         vLabel.font = UIFont.systemFont(ofSize: 15)
         vLabel.text = "-"
         vLabel.numberOfLines = 0
+        vLabel.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer.init(target:self, action: #selector(showAllTap))
+        vLabel.addGestureRecognizer(tap)
         self.addSubview(vLabel)
         return vLabel
         }()
     
+    fileprivate lazy var actorTitleLabel:UILabel = { [unowned self] in
+        let vLabel:UILabel = UILabel()
+        vLabel.font = UIFont.systemFont(ofSize: 12)
+        vLabel.text = "影人"
+        vLabel.textColor = UIColor.darkGray
+        self.addSubview(vLabel)
+        return vLabel
+        }()
+    
+    fileprivate lazy var actorsView:MovieActorsView = { [unowned self] in
+        let nView:MovieActorsView = MovieActorsView()
+        self.addSubview(nView)
+        return nView
+        }()
+    
+    weak var delegate: MovieDetialHeadViewDelegate?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        
         self.backgroundColor = UIColor(red: 248.0/255, green: 243.0/255.0, blue: 240.0/255.0, alpha: 1)
         setup()
+    }
+    
+    @objc private func showAllTap() {
+        print(message: "单击")
+        self.isShowAll = !self.isShowAll
+        self.delegate?.showAllSum?()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -264,7 +298,7 @@ class MovieDetailHeadview: UIView {
         }
         
         self.summaryTitleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.wantToWatchBtn.snp.bottom).offset(40)
+            make.top.equalTo(self.wantToWatchBtn.snp.bottom).offset(30)
             make.left.equalTo(self.titleLabel.snp.left)
             make.right.equalTo(self.scoreView.snp.right)
             make.height.equalTo(15)
@@ -275,6 +309,21 @@ class MovieDetailHeadview: UIView {
             make.left.right.equalTo(self.summaryTitleLabel)
             make.height.greaterThanOrEqualTo(20)
         }
+        
+        self.actorTitleLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.summaryLabel.snp.bottom).offset(30)
+            make.left.equalTo(self.titleLabel.snp.left)
+            make.right.equalTo(self.scoreView.snp.right)
+            make.height.equalTo(15)
+        }
+        
+        self.actorsView.snp.makeConstraints { (make) in
+            make.top.equalTo(self.actorTitleLabel.snp.bottom).offset(8)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalTo(130)
+        }
+        
     }
     
 }
@@ -338,15 +387,34 @@ extension MovieDetailHeadview {
         }
         
         self.summaryLabel.text = infoDic["summary"] as? String
+        let summaryHeight = getSize(with: 15, textWidth: MainWidth - 40, contentStr: self.summaryLabel.text! as NSString).height + 1.0
+
+        if summaryHeight > 100 {
+            self.summaryLabel.snp.remakeConstraints { (make) in
+                make.top.equalTo(self.summaryTitleLabel.snp.bottom).offset(8)
+                make.left.right.equalTo(self.summaryTitleLabel)
+                if self.isShowAll == true {
+                    make.height.greaterThanOrEqualTo(20)
+                }else{
+                    make.height.equalTo(100)
+                }
+            }
+        }
+        
+        let directorArr = infoDic["directors"] as? NSArray
+        let actorsArr = infoDic["casts"] as? NSArray
+        
+        self.actorsView.refreshUI(directorsArr: directorArr!, actorsArr: actorsArr!)
+        
     }
     
     
     func headViewHeight() -> CGFloat {
         
         let height = getSize(with: 12, textWidth: MainWidth - 160, contentStr: self.shortIntrLabel.text! as NSString).height + 1.0 + self.shortIntrLabel.frame.origin.y
-        let summaryHeight = getSize(with: 15, textWidth: MainWidth - 40, contentStr: self.summaryLabel.text! as NSString).height + 1.0
-        
-        return height>scoreView.frame.maxY ? (height+100+summaryHeight+40+15+8):(scoreView.frame.maxY+100+summaryHeight+40+15+8)
+        var summaryHeight = getSize(with: 15, textWidth: MainWidth - 40, contentStr: self.summaryLabel.text! as NSString).height + 1.0
+        summaryHeight = summaryHeight > 100 ? (self.isShowAll == true ? summaryHeight : 100) : summaryHeight
+        return height>scoreView.frame.maxY ? (height+80+30+15+8+summaryHeight+45+8+130+30):(scoreView.frame.maxY+80+30+15+8+summaryHeight+45+8+130+30)
     }
     
 }
