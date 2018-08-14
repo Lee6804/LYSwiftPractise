@@ -11,11 +11,13 @@ import UIKit
 @objc protocol MovieDetialHeadViewDelegate: NSObjectProtocol {
 
     @objc optional func showAllSum()
+    @objc optional func actorDetailInfo(name:NSString)
 }
 
 class MovieDetailHeadview: UIView {
     
     var isShowAll = false
+    var oldFrame = CGRect()
     
     //248 243 240
     fileprivate lazy var backView:UIView = { [unowned self] in
@@ -28,6 +30,9 @@ class MovieDetailHeadview: UIView {
     fileprivate lazy var backImgView: UIImageView = { [unowned self] in
         let bImgView:UIImageView = UIImageView()
         bImgView.contentMode = UIViewContentMode.scaleAspectFit
+        bImgView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapClick))
+        bImgView.addGestureRecognizer(tap)
         self.backView.addSubview(bImgView)
         return bImgView
         }()
@@ -199,9 +204,53 @@ class MovieDetailHeadview: UIView {
     }
     
     @objc private func showAllTap() {
-        print(message: "单击")
         self.isShowAll = !self.isShowAll
         self.delegate?.showAllSum?()
+    }
+    
+    func tapClick() {
+        
+        let image = self.backImgView.image
+        
+        let window = UIApplication.shared.keyWindow
+        let backgroundView = UIView(frame: CGRect(x: 0, y: 0, width: MainWidth, height: MainHeight))
+        backgroundView.backgroundColor = UIColor.black
+        backgroundView.alpha = 0
+        
+        let imageView = UIImageView(frame: self.backImgView.frame)
+        imageView.image = image
+        imageView.tag = 1
+        backgroundView.addSubview(imageView)
+        window?.addSubview(backgroundView)
+    
+        let hide = UITapGestureRecognizer(target: self, action: #selector(hideImage(sender:)))
+        
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(hide)
+        
+        UIView.animate(withDuration: 0.3) {
+            let vsize = UIScreen.main.bounds.size
+            imageView.frame = CGRect(x:0.0, y: 0.0, width: vsize.width, height: vsize.height)
+            imageView.contentMode = UIViewContentMode.scaleAspectFit
+            backgroundView.alpha = 1
+        }
+    }
+    
+    func hideImage(sender: UITapGestureRecognizer) {
+        let backgroundView = sender.view as UIView?
+        if let view = backgroundView {
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                let imageView = view.viewWithTag(1) as! UIImageView
+                imageView.frame = self.oldFrame
+                imageView.alpha = 0
+            }, completion: {(finished:Bool) in
+                view.alpha = 0
+                view.superview?.removeFromSuperview()
+                view.removeFromSuperview()
+            })
+        }
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -221,6 +270,8 @@ class MovieDetailHeadview: UIView {
             make.centerX.equalTo(self.backView.snp.centerX)
             make.width.equalTo(self.bounds.width/2)
         }
+       
+        self.oldFrame = CGRect(x: MainWidth/4, y: TopNavBarHeight + 20, width: self.bounds.width/2, height: MainWidth - 20 - TopNavBarHeight - 20)
         
         self.scoreView.snp.makeConstraints { (make) in
             make.top.equalTo(self.backView.snp.bottom).offset(20)
@@ -323,9 +374,17 @@ class MovieDetailHeadview: UIView {
             make.right.equalToSuperview()
             make.height.equalTo(130)
         }
+        self.actorsView.delegate = self
         
     }
     
+}
+
+extension MovieDetailHeadview:actorInfoDelegate {
+    
+    func actorInfo(name: NSString) {
+        self.delegate?.actorDetailInfo!(name: name)
+    }
 }
 
 extension MovieDetailHeadview {

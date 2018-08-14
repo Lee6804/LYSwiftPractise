@@ -8,11 +8,17 @@
 
 import UIKit
 
+@objc protocol actorInfoDelegate:NSObjectProtocol {
+    
+    @objc optional func actorInfo(name:NSString)
+}
+
 class MovieActorsView: UIView {
     
     var imageArr:NSMutableArray = NSMutableArray()
     var nameArr:NSMutableArray = NSMutableArray()
     
+    weak var delegate:actorInfoDelegate?
     
     fileprivate lazy var collectionView: UICollectionView = { [weak self] in
         
@@ -62,6 +68,10 @@ extension MovieActorsView: UICollectionViewDelegate, UICollectionViewDataSource,
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MOVIEACTORSLISTCELL", for: indexPath) as! MovieActorsCollectionViewCell
         cell.refreshUI(actorImgStr: imageArr[indexPath.row] as! NSString, actorNameStr: nameArr[indexPath.row] as! NSString)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.delegate?.actorInfo!(name: nameArr[indexPath.item] as! NSString)
     }
 }
 

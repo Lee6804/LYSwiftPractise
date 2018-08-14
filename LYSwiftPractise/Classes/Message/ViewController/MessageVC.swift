@@ -13,7 +13,7 @@ class MessageVC: UIViewController {
     var dataArr:[NSObject] = [NSObject]()
     
     fileprivate lazy var tableView: UITableView = { [unowned self] in
-        let tabV = UITableView(frame: MianScreen, style: UITableViewStyle.plain)
+        let tabV = UITableView(frame: CGRect(x: 0, y: 0, width: MainWidth, height: MainHeight - TopNavBarHeight), style: UITableViewStyle.plain)
         tabV.delegate = self
         tabV.dataSource = self
         tabV.rowHeight = 140
@@ -109,7 +109,6 @@ extension MessageVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let model = dataArr[indexPath.row] as? DBMovieTopListModel
-        print(message: model?.movieId)
         let detaiVC = MovieDetailVC()
         detaiVC.movieId = (model?.movieId)!
         detaiVC.rankIndex = indexPath.row + 1

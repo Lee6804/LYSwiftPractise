@@ -18,7 +18,7 @@ class MainVC: UIViewController {
         layout.minimumInteritemSpacing = 5
         layout.sectionInset = UIEdgeInsetsMake(10, 5, 10, 5)
         
-        let colV = UICollectionView(frame: CGRect(x: 0, y: 0, width: MainWidth, height: MainHeight), collectionViewLayout: layout)
+        let colV = UICollectionView(frame: CGRect(x: 0, y: 0, width: MainWidth, height: MainHeight - TopNavBarHeight), collectionViewLayout: layout)
         colV.delegate = self
         colV.dataSource = self
         colV.backgroundColor = BACKGROUNGCOLOR

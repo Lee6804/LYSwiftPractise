@@ -10,23 +10,24 @@ import UIKit
 
 class BaseViewController: UIViewController,UIGestureRecognizerDelegate {
     
-//    var tabStyle = 0
+    var tabStyle = 0
     
-//    lazy var tableView: UITableView = { [unowned self] in
-//        let tab = UITableView(frame: CGRect.zero, style: self.tabStyle == 0 ? UITableViewStyle.plain : UITableViewStyle.grouped)
-//        tab.delegate = self
-//        tab.dataSource = self
-//        tab.backgroundColor = BACKGROUNGCOLOR
-//        tab.tableFooterView = UIView()
-//        return tab
-//    }()
+    lazy var tableView: UITableView = { [unowned self] in
+        let tab = UITableView(frame: CGRect.zero, style: self.tabStyle == 0 ? UITableViewStyle.plain : UITableViewStyle.grouped)
+        tab.delegate = self
+        tab.dataSource = self
+        tab.backgroundColor = BACKGROUNGCOLOR
+        tab.tableFooterView = UIView()
+        return tab
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
-        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.isTranslucent = false
+//        self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationController?.navigationBar.barTintColor = MAINCOLOR
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
@@ -49,7 +50,7 @@ class BaseViewController: UIViewController,UIGestureRecognizerDelegate {
         return true
     }
 
-    @objc private func leftItemTouch() {
+    func leftItemTouch() {
         guard self.navigationController != nil else { return }
         
         self.navigationController?.popViewController(animated: true)
@@ -73,44 +74,52 @@ class BaseViewController: UIViewController,UIGestureRecognizerDelegate {
 
 }
 
-//extension BaseViewController: UITableViewDelegate , UITableViewDataSource{
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 0
-//    }
-//    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = UITableViewCell()
-//        return cell
-//    }
-//    
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return 0
-//    }
-//    
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let view:UIView = UIView(frame: CGRect(x: 0, y: 0, width: MainWidth, height: 0))
-//        view.backgroundColor = UIColor.clear
-//        return view
-//    }
-//    
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 0
-//    }
-//    
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        let view:UIView = UIView(frame: CGRect(x: 0, y: 0, width: MainWidth, height: 0))
-//        view.backgroundColor = UIColor.clear
-//        return view
-//    }
-//    
-//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return 0
-//    }
-//    
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        
-//    }
-//    
-//}
+extension BaseViewController: UITableViewDelegate , UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 0
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view:UIView = UIView(frame: CGRect(x: 0, y: 0, width: MainWidth, height: 0))
+        view.backgroundColor = UIColor.clear
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view:UIView = UIView(frame: CGRect(x: 0, y: 0, width: MainWidth, height: 0))
+        view.backgroundColor = UIColor.clear
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+    }
+    
+}
 
 
