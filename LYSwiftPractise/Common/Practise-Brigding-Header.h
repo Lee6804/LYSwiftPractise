@@ -11,5 +11,7 @@
 
 #import <RTRootNavigationController.h>
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <SDCycleScrollView.h>
+#import <IQKeyboardManager.h> 
 
 #endif /* Practise_Brigding_Header_h */

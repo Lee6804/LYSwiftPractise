@@ -21,6 +21,8 @@ class MovieDetailVC: UIViewController {
     var btnArr:NSMutableArray = NSMutableArray()
     var cellType = 1000
     
+    var imageAlpha = CGFloat()
+    
     let sectionHeadView:UIView = UIView(frame: CGRect(x: 0, y: 0, width: MainWidth, height: 50))
     
     
@@ -283,6 +285,7 @@ extension MovieDetailVC {
         let imgAlpha = (offsetY)/alphaChangeBoundary
         self.navigationController?.navigationBar.setBackgroundImage(self.halfAlphaBlackImage(imageAlpha: imgAlpha, viewColor: MAINCOLOR),for: .default)
         
+        self.imageAlpha = imgAlpha
         
         //Mark:tableView sectionHeadView 悬停问题
         if offsetY >= self.headView.headViewHeight()-128 {
@@ -307,7 +310,10 @@ extension MovieDetailVC: MovieDetialHeadViewDelegate {
         let actorInfoVC = MovieActorInfoVC()
         actorInfoVC.title = name as String
         actorInfoVC.callBackBlock {
-            self.tableView.frame = CGRect(x: 0, y: -TopNavBarHeight, width: MainWidth, height: MainHeight)
+            
+            if self.imageAlpha == 1 {
+                self.tableView.frame = CGRect(x: 0, y: -TopNavBarHeight, width: MainWidth, height: MainHeight)
+            }
         }
         self.navigationController?.pushViewController(actorInfoVC, animated: true)
         

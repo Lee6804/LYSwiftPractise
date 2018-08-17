@@ -1,7 +1,10 @@
 PODS:
+  - IQKeyboardManager (6.1.1)
   - RTRootNavigationController (0.6.7):
     - RTRootNavigationController/Core (= 0.6.7)
   - RTRootNavigationController/Core (0.6.7)
+  - SDCycleScrollView (1.75):
+    - SDWebImage (>= 4.0.0)
   - SDWebImage (4.4.2):
     - SDWebImage/Core (= 4.4.2)
   - SDWebImage/Core (4.4.2)
@@ -9,24 +12,30 @@ PODS:
   - WZRootNavigationController (0.2.0)
 
 DEPENDENCIES:
+  - IQKeyboardManager
   - RTRootNavigationController
+  - SDCycleScrollView
   - SDWebImage
   - SnapKit (~> 3.0.2)
   - WZRootNavigationController
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - IQKeyboardManager
     - RTRootNavigationController
+    - SDCycleScrollView
     - SDWebImage
     - SnapKit
     - WZRootNavigationController
 
 SPEC CHECKSUMS:
+  IQKeyboardManager: 79c57795f5c2408d259d37b9da2ed07efcbb5225
   RTRootNavigationController: d6aa6cbb78a3eaecea4f6e4df63f15dd887836b8
+  SDCycleScrollView: 884b88f0266dd4708a0e1934975c69cb971707b1
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
   WZRootNavigationController: 2e70c375e59680ee46337f79b9f2c5ec7d07102d
 
-PODFILE CHECKSUM: 3c847c4cd38dd75b995adf40e93d7942f8e59a4e
+PODFILE CHECKSUM: 49c0a00cb2cd26b51ef10047446a894ff9342858
 
 COCOAPODS: 1.5.3

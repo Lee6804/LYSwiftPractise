@@ -25,6 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = BaseTabBarViewController()
         window?.makeKeyAndVisible()
         
+        IQKeyboardManager.shared().shouldResignOnTouchOutside = true
+        IQKeyboardManager.shared().isEnableAutoToolbar = false
+        
         return true
     }
 

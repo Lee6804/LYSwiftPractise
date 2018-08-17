@@ -13,6 +13,21 @@ typealias funcBlock = () -> ()
 class MovieActorInfoVC: BaseViewController {
     
     var popToView : funcBlock?
+    
+    var isWillAppear = false
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.isWillAppear = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.isWillAppear = false
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

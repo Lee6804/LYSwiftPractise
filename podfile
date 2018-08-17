@@ -7,5 +7,7 @@ pod 'SnapKit', '~>3.0.2'
 pod 'RTRootNavigationController'
 pod 'WZRootNavigationController'
 pod 'SDWebImage'
+pod 'SDCycleScrollView'
+pod 'IQKeyboardManager'
 
 end

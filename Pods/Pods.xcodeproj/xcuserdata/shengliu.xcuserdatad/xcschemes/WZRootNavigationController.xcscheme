@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "97C944CF51DE6F09D7EFBA0D66E64C0F"
+               BlueprintIdentifier = "85CDC63BB7E7590D442DD0EA87FFCD43"
                BlueprintName = "WZRootNavigationController"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "libWZRootNavigationController.a">

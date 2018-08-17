@@ -94,5 +94,12 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         cell.refreshUI(info: arr[indexPath.item] as! NSDictionary)
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailVC = MainDetailVC()
+        detailVC.title = (arr[indexPath.item] as! NSDictionary)["name"] as? String
+        self.navigationController?.pushViewController(detailVC, animated: true)
+        
+    }
 }
 
