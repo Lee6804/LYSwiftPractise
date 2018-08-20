@@ -11,6 +11,7 @@ import UIKit
 class ChooseGoodsTypeView: UIView {
     
     //MARK: var
+    var infoDic:NSDictionary = NSDictionary()
     var stockNum:NSInteger = NSInteger()
     var dataArr:NSMutableArray = NSMutableArray()
     
@@ -223,8 +224,8 @@ extension ChooseGoodsTypeView:UICollectionViewDelegate, UICollectionViewDataSour
         var reusableview:UICollectionReusableView!
         if kind == UICollectionElementKindSectionHeader {
             reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! GoodsTypeCollectionReusableHeaderView
-            let dic = dataArr[indexPath.section] as? NSDictionary
-            (reusableview as! GoodsTypeCollectionReusableHeaderView).titleLabel.text = (dic!["kind"] as! String)
+            let sectionModel = self.dataArr[indexPath.section] as! TypeSectionModel
+            (reusableview as! GoodsTypeCollectionReusableHeaderView).titleLabel.text = (sectionModel.kind! as String)
         }
         
         if kind == UICollectionElementKindSectionFooter && indexPath.section == dataArr.count - 1 {
@@ -244,29 +245,95 @@ extension ChooseGoodsTypeView:UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let dic = dataArr[section] as? NSDictionary
-        let valueArr = dic!["kindValue"] as? NSArray
-        return valueArr!.count
+        let sectionModel = self.dataArr[section] as! TypeSectionModel
+        return sectionModel.data!.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cell = GoodsTypeCollectionViewCell()
-        let dic = dataArr[indexPath.section] as? NSDictionary
-        let valueArr = dic!["kindValue"] as? NSArray
-        let width = cell.colCellWidth(str: valueArr![indexPath.row] as! NSString)
-        return CGSize.init(width: width, height: 36)
+        let sectionModel = self.dataArr[indexPath.section] as! TypeSectionModel
+        let model = sectionModel.data![indexPath.row] as! TypeModel
+        return CGSize.init(width: cell.colCellWidth(model:model), height: 36)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TYPECELL", for: indexPath) as! GoodsTypeCollectionViewCell
-        let dic = dataArr[indexPath.section] as? NSDictionary
-        let valueArr = dic!["kindValue"] as? NSArray
-        cell.refreshUI(str:valueArr![indexPath.row] as! NSString)
+        let sectionModel = self.dataArr[indexPath.section] as! TypeSectionModel
+        let model = sectionModel.data![indexPath.row] as! TypeModel
+        cell.refreshUI(model: model, indexPath: indexPath as NSIndexPath, dataArr: self.dataArr)
+        cell.delegate = self
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
+    }
+}
+
+extension ChooseGoodsTypeView:GoodsTypeCollectionViewCellDelegate {
+    
+    func reloadCol() {
+        //kindTitleArr用于存放 类型名称 如果全部分类都已经选择了一个则数组位空 显示的就是 已选某些种类
+        //kindArr用于存放已选的种类 如果kindArr的count和self.dataArr的count相等 则表示所有分类类型都已经选择了 然后再去根据原始的skus数据进行对比 将相应的信息刷新
+        let kindTitleArr:NSMutableArray = NSMutableArray()
+        let kindArr:NSMutableArray = NSMutableArray()
+        for i in 0..<self.dataArr.count {
+            
+            let sectionModel = self.dataArr[i] as? TypeSectionModel
+            var allSelected = false
+            sectionModel?.data?.enumerateObjects({ (model, index, stop) in
+                let model = model as? TypeModel
+                if model?.isSelected == true {
+                    allSelected = true
+                    kindArr.add(model?.name as Any)
+                }
+            })
+            if allSelected == false {
+                kindTitleArr.add(sectionModel?.kind as Any)
+            }
+        }
+        
+        if kindTitleArr.count != 0 {
+            self.choosedLabel.text = "请选择 \(kindTitleArr.componentsJoined(by: " "))"
+            
+            //勾选后取消任意一个都需要将数据还原
+            self.goodsImg.sd_setImage(with: NSURL(string: (infoDic["mainImage"] as? String)!)! as URL, placeholderImage: UIImage(named: "nopic.jpg"))
+            
+            self.goodsImg.sd_setImage(with: NSURL(string: (infoDic["mainImage"] as? String)!)! as URL, placeholderImage: UIImage(named: "nopic.jpg"))
+            let price = infoDic["sellingPrice"] as? Float64
+            let priceStr = String(format: "¥%.2f", price!)
+            self.priceLabel.text = priceStr
+            
+            self.stockNum = NSInteger((infoDic["stockQuantity"] as? NSNumber)!)
+        }else{
+            self.choosedLabel.text = "已选: \(kindArr.componentsJoined(by: " "))"
+        }
+//        print(message: kindArr)
+        if kindArr.count == self.dataArr.count {
+            
+            let skuArr = infoDic["skus"] as? NSArray
+            for i in 0..<skuArr!.count {
+                let checkReloadArr:NSMutableArray = NSMutableArray()
+                let skuDetailDic = skuArr![i] as? NSDictionary
+                let attriArr = skuDetailDic!["attributes"] as? NSArray
+                for j in 0..<attriArr!.count{
+                    let dict = attriArr![j] as? NSDictionary
+                    let str = dict!["value"] as! String
+                    checkReloadArr.add(str)
+                }
+                //如果勾选的和遍历出来的arr是相等的 则将此sku的信息刷新到界面上
+                if kindArr == checkReloadArr {
+                    self.goodsImg.sd_setImage(with: NSURL(string: (skuDetailDic!["mainImage"] as? String)!)! as URL, placeholderImage: UIImage(named: "nopic.jpg"))
+                    
+                    let price = skuDetailDic!["sellingPrice"] as? Float64
+                    let priceStr = String(format: "¥%.2f", price!)
+                    self.priceLabel.text = priceStr
+                    
+                    self.stockNum = NSInteger((skuDetailDic!["stockQuantity"] as? NSNumber)!)
+                }
+            }
+        }
+        self.collectionView.reloadData()
     }
 }
 
@@ -276,8 +343,12 @@ extension ChooseGoodsTypeView {
     func refreshUI(infoDic:NSDictionary) {
 //        print(message: infoDic["skus"])
         
+        self.infoDic = infoDic
+        
         self.stockNum = NSInteger((infoDic["stockQuantity"] as? NSNumber)!)
         dataArr.removeAllObjects()
+        
+        let arr1:NSMutableArray = NSMutableArray()
         
         self.goodsImg.sd_setImage(with: NSURL(string: (infoDic["mainImage"] as? String)!)! as URL, placeholderImage: UIImage(named: "nopic.jpg"))
         let price = infoDic["sellingPrice"] as? Float64
@@ -293,15 +364,15 @@ extension ChooseGoodsTypeView {
                 let dict = attriArr![j] as? NSDictionary
                 let mutDic:NSMutableDictionary = NSMutableDictionary()
                 mutDic.setObject(dict!["key"] as Any, forKey: "kind" as NSCopying)
-                if dataArr.contains(mutDic) == false {
-                    dataArr.add(mutDic)
+                if arr1.contains(mutDic) == false {
+                    arr1.add(mutDic)
                 }
             }
         }
         
-//        print(message: dataArr)
+//        print(message: arr1)
         
-        let copArr1 = dataArr.mutableCopy() as? NSMutableArray
+        let copArr1 = arr1.mutableCopy() as? NSMutableArray
         for i in 0..<copArr1!.count {
             let nDic = copArr1![i] as? NSMutableDictionary
             let nArr:NSMutableArray = NSMutableArray()
@@ -310,24 +381,33 @@ extension ChooseGoodsTypeView {
                 let attriArr = skuDetailDic!["attributes"] as? NSArray
                 for j in 0..<attriArr!.count{
                     let dict = attriArr![j] as? NSDictionary
+                    let addDic:NSMutableDictionary = NSMutableDictionary()
                     if dict!["key"] as? String == nDic!["kind"] as? String{
-                        if nArr.contains(dict!["value"] as Any) == false {
-                            nArr.add(dict!["value"] as Any)
+                        addDic.setObject(dict!["value"] as Any, forKey: "name" as NSCopying)
+                        addDic.setObject(false, forKey: "isSelected" as NSCopying)
+                        if nArr.contains(addDic as Any) == false {
+                            nArr.add(addDic)
                         }
                     }
                 }
             }
             nDic?.setObject(nArr, forKey: "kindValue" as NSCopying)
-            if dataArr.contains(nDic as Any) == false {
-                dataArr.add(nDic as Any)
+            if arr1.contains(nDic as Any) == false {
+                arr1.add(nDic as Any)
             }
         }
-        print(message: dataArr)
+//        print(message: arr1)
+        
+        for i in 0..<arr1.count {
+            let dic = arr1[i] as! NSDictionary
+            let sectionModel = TypeSectionModel.init(dic: dic)
+            self.dataArr.add(sectionModel)
+        }
         
         let kindArr:NSMutableArray = NSMutableArray()
         for i in 0..<dataArr.count {
-            let kindDic = dataArr[i] as? NSDictionary
-            kindArr.add(kindDic!["kind"] as Any)
+            let sectionModel = dataArr[i] as! TypeSectionModel
+            kindArr.add(sectionModel.kind as Any)
         }
         
         self.choosedLabel.text = "请选择 \(kindArr.componentsJoined(by: " "))"

@@ -8,51 +8,72 @@
 
 import UIKit
 
+@objc protocol GoodsTypeCollectionViewCellDelegate:NSObjectProtocol {
+    
+    @objc optional func reloadCol()
+}
+
 class GoodsTypeCollectionViewCell: UICollectionViewCell {
     
-    fileprivate lazy var typeBtn:UIButton = { [unowned self] in
-        let nBtn:UIButton = UIButton()
-        nBtn.setTitle("6GB+128GB 全网通", for: UIControlState.normal)
+    var indexPath:NSIndexPath?
+    var model:TypeModel?
+    var data:NSArray?
+    
+    lazy var typeBtn:UIButton = { [unowned self] in
+        let nBtn:UIButton = UIButton(frame: CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
+        nBtn.setTitle("", for: UIControlState.normal)
         nBtn.setTitleColor(UIColor.darkGray, for: UIControlState.normal)
         nBtn.setTitleColor(MAINCOLOR, for: UIControlState.selected)
         nBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         nBtn.addTarget(self, action: #selector(typeBtnClick(sender:)), for: UIControlEvents.touchUpInside)
-        self.contentView.addSubview(nBtn)
+        nBtn.layer.cornerRadius = 5
+        nBtn.layer.borderColor = UIColor.darkGray.cgColor
+        nBtn.layer.borderWidth = 0.5
         return nBtn
         }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.typeBtn.snp.makeConstraints { (make) in
-            make.top.width.height.equalToSuperview()
-        }
-        self.typeBtn.layer.cornerRadius = 5
-        self.typeBtn.layer.borderColor = UIColor.darkGray.cgColor
-        self.typeBtn.layer.borderWidth = 0.5
+        self.contentView.addSubview(self.typeBtn)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    weak var delegate:GoodsTypeCollectionViewCellDelegate?
+    
     @objc func typeBtnClick(sender:UIButton) {
-        sender.isSelected = !sender.isSelected
-        sender.layer.borderColor = sender.isSelected ? MAINCOLOR.cgColor : UIColor.darkGray.cgColor
+  
+        let sectionModel = self.data![(self.indexPath?.section)!] as? TypeSectionModel
+        sectionModel?.data?.enumerateObjects({ (model, index, stop) in
+            let model = model as! TypeModel
+            model.isSelected = false
+        })
+        
+        self.model?.isSelected = sender.isSelected ? false : true
+        
+        self.delegate?.reloadCol!()
     }
 }
 
 
 extension GoodsTypeCollectionViewCell {
     
-    func refreshUI(str:NSString) {
+    func refreshUI(model:TypeModel, indexPath:NSIndexPath, dataArr:NSArray) {
         
-        self.typeBtn.setTitle(str as String, for: UIControlState.normal)
+        self.data = dataArr
+        self.model = model
+        self.indexPath = indexPath
+        self.typeBtn.setTitle(model.name! as String, for: UIControlState.normal)
+        self.typeBtn.isSelected = model.isSelected!
+        self.typeBtn.layer.borderColor = model.isSelected == true ? MAINCOLOR.cgColor : UIColor.darkGray.cgColor;
     }
     
-    func colCellWidth(str:NSString) -> CGFloat {
-        
-        let cellWidth = self.getLabWidth(labelStr: str as String, font: UIFont.systemFont(ofSize: 15), height: 36)
+    func colCellWidth(model:TypeModel) -> CGFloat {
+    
+        let cellWidth = self.getLabWidth(labelStr: model.name! as String, font: UIFont.systemFont(ofSize: 15), height: 36)
         return cellWidth + 20
     }
     
@@ -63,6 +84,18 @@ extension GoodsTypeCollectionViewCell {
         let dic = NSDictionary(object: font, forKey: NSFontAttributeName as NSCopying)
         let strSize = statusLabelText.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: dic as? [String : AnyObject], context: nil).size
         return strSize.width
+    }
+    
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        
+        let attributes = super.preferredLayoutAttributesFitting(layoutAttributes)
+        var frame = model?.name?.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 36), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 15)], context: nil)
+        frame?.size.height = 36
+        attributes.frame = frame!
+        
+        self.typeBtn.frame = CGRect(x: 0, y: 0, width: attributes.frame.size.width + 20, height: 36)
+        
+        return attributes
     }
 }
 
