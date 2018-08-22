@@ -9,7 +9,7 @@
   "currencyUnit": "¥",
   "measurementUnit": "件",
   "saleQuantity": 100,
-  "stockQuantity": 1000,
+  "stockQuantity": 100,
   "medias": [
     "https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/5a158dde6d83c8e6e712d662b287b935.jpg?w=1080&h=1794",
     "https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/135d15548ed954a1504643fe02f0834a.jpg?w=1080&h=2206",
@@ -38,7 +38,7 @@
       "mainImage": "https://i8.mifile.cn/a1/pms_1527735172.84998896!560x560.jpg",
       "originPrice": 2699.00,
       "sellingPrice": 2699.00,
-      "stockQuantity": 100,
+      "stockQuantity": 10,
       "attributes": [
         {
           "key": "版本",
@@ -56,7 +56,7 @@
       "mainImage": "https://i8.mifile.cn/a1/pms_1527735168.55324506!560x560.jpg",
       "originPrice": 2699.00,
       "sellingPrice": 2699.00,
-      "stockQuantity": 100,
+      "stockQuantity": 8,
       "attributes": [
         {
           "key": "版本",
@@ -74,7 +74,7 @@
       "mainImage": "https://i8.mifile.cn/a1/pms_1527735159.54488951!560x560.jpg",
       "originPrice": 2699.00,
       "sellingPrice": 2699.00,
-      "stockQuantity": 100,
+      "stockQuantity": 21,
       "attributes": [
         {
           "key": "版本",
@@ -92,7 +92,7 @@
       "mainImage": "https://i8.mifile.cn/a1/pms_1527735172.84998896!560x560.jpg",
       "originPrice": 2999.00,
       "sellingPrice": 2999.00,
-      "stockQuantity": 100,
+      "stockQuantity": 6,
       "attributes": [
         {
           "key": "版本",
@@ -110,7 +110,7 @@
       "mainImage": "https://i8.mifile.cn/a1/pms_1527735168.55324506!560x560.jpg",
       "originPrice": 2999.00,
       "sellingPrice": 2999.00,
-      "stockQuantity": 100,
+      "stockQuantity": 3,
       "attributes": [
         {
           "key": "版本",
@@ -128,7 +128,7 @@
       "mainImage": "https://i8.mifile.cn/a1/pms_1527735159.54488951!560x560.jpg",
       "originPrice": 2999.00,
       "sellingPrice": 2999.00,
-      "stockQuantity": 100,
+      "stockQuantity": 14,
       "attributes": [
         {
           "key": "版本",
@@ -146,7 +146,7 @@
       "mainImage": "https://i8.mifile.cn/a1/pms_1527735163.02784072!560x560.jpg",
       "originPrice": 2999.00,
       "sellingPrice": 2999.00,
-      "stockQuantity": 100,
+      "stockQuantity": 2,
       "attributes": [
         {
           "key": "版本",
@@ -164,7 +164,7 @@
       "mainImage": "https://i8.mifile.cn/a1/pms_1527735172.84998896!560x560.jpg",
       "originPrice": 3299.00,
       "sellingPrice": 3299.00,
-      "stockQuantity": 100,
+      "stockQuantity": 5,
       "attributes": [
         {
           "key": "版本",
@@ -182,7 +182,7 @@
       "mainImage": "https://i8.mifile.cn/a1/pms_1527735168.55324506!560x560.jpg",
       "originPrice": 3299.00,
       "sellingPrice": 3299.00,
-      "stockQuantity": 100,
+      "stockQuantity": 18,
       "attributes": [
         {
           "key": "版本",
@@ -200,7 +200,7 @@
       "mainImage": "https://i8.mifile.cn/a1/pms_1527735159.54488951!560x560.jpg",
       "originPrice": 3299.00,
       "sellingPrice": 3299.00,
-      "stockQuantity": 100,
+      "stockQuantity": 4,
       "attributes": [
         {
           "key": "版本",
@@ -218,7 +218,7 @@
       "mainImage": "https://i8.mifile.cn/a1/pms_1527735163.02784072!560x560.jpg",
       "originPrice": 3299.00,
       "sellingPrice": 3299.00,
-      "stockQuantity": 100,
+      "stockQuantity": 9,
       "attributes": [
         {
           "key": "版本",

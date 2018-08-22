@@ -297,18 +297,37 @@ extension ChooseGoodsTypeView:GoodsTypeCollectionViewCellDelegate {
             self.choosedLabel.text = "请选择 \(kindTitleArr.componentsJoined(by: " "))"
             
             //勾选后取消任意一个都需要将数据还原
-            self.goodsImg.sd_setImage(with: NSURL(string: (infoDic["mainImage"] as? String)!)! as URL, placeholderImage: UIImage(named: "nopic.jpg"))
+            self.updataView(dic: self.infoDic)
             
-            self.goodsImg.sd_setImage(with: NSURL(string: (infoDic["mainImage"] as? String)!)! as URL, placeholderImage: UIImage(named: "nopic.jpg"))
-            let price = infoDic["sellingPrice"] as? Float64
-            let priceStr = String(format: "¥%.2f", price!)
-            self.priceLabel.text = priceStr
-            
-            self.stockNum = NSInteger((infoDic["stockQuantity"] as? NSNumber)!)
         }else{
             self.choosedLabel.text = "已选: \(kindArr.componentsJoined(by: " "))"
         }
+        
 //        print(message: kindArr)
+        
+        //排除不可选分类类型
+        if kindArr.count != 0 && kindArr.count != self.dataArr.count {
+            
+            let noExitArr:NSMutableArray = NSMutableArray()
+            
+            for m in 0..<kindArr.count{
+                let skuArr = infoDic["skus"] as? NSArray
+                for i in 0..<skuArr!.count {
+                    let skuDetailDic = skuArr![i] as? NSDictionary
+                    let attriArr = skuDetailDic!["attributes"] as? NSArray
+                    for j in 0..<attriArr!.count{
+                        let dict = attriArr![j] as? NSDictionary
+                        if kindArr[m] as? String == dict!["value"] as? String {
+                        
+//                            let dict1 = attriArr![j+1] as? NSDictionary
+                            print(message: dict!["value"])
+                        }
+                    }
+                }
+            }
+        }
+        
+        
         if kindArr.count == self.dataArr.count {
             
             let skuArr = infoDic["skus"] as? NSArray
@@ -321,15 +340,13 @@ extension ChooseGoodsTypeView:GoodsTypeCollectionViewCellDelegate {
                     let str = dict!["value"] as! String
                     checkReloadArr.add(str)
                 }
+//                print(message: checkReloadArr)
                 //如果勾选的和遍历出来的arr是相等的 则将此sku的信息刷新到界面上
                 if kindArr == checkReloadArr {
-                    self.goodsImg.sd_setImage(with: NSURL(string: (skuDetailDic!["mainImage"] as? String)!)! as URL, placeholderImage: UIImage(named: "nopic.jpg"))
                     
-                    let price = skuDetailDic!["sellingPrice"] as? Float64
-                    let priceStr = String(format: "¥%.2f", price!)
-                    self.priceLabel.text = priceStr
-                    
-                    self.stockNum = NSInteger((skuDetailDic!["stockQuantity"] as? NSNumber)!)
+                    //更新数据
+                    self.updataView(dic: skuDetailDic!)
+
                 }
             }
         }
@@ -345,16 +362,13 @@ extension ChooseGoodsTypeView {
         
         self.infoDic = infoDic
         
-        self.stockNum = NSInteger((infoDic["stockQuantity"] as? NSNumber)!)
         dataArr.removeAllObjects()
+        
+        //更新数据
+        self.updataView(dic: infoDic)
         
         let arr1:NSMutableArray = NSMutableArray()
         
-        self.goodsImg.sd_setImage(with: NSURL(string: (infoDic["mainImage"] as? String)!)! as URL, placeholderImage: UIImage(named: "nopic.jpg"))
-        let price = infoDic["sellingPrice"] as? Float64
-        let priceStr = String(format: "¥%.2f", price!)
-        self.priceLabel.text = priceStr
-
         let skuArr = infoDic["skus"] as? NSArray
         
         for i in 0..<skuArr!.count {
@@ -414,4 +428,16 @@ extension ChooseGoodsTypeView {
         
         self.collectionView.reloadData()
     }
+    
+    //更新界面数据
+    func updataView(dic:NSDictionary) {
+        
+        self.stockNum = NSInteger((dic["stockQuantity"] as? NSNumber)!)
+        self.goodsImg.sd_setImage(with: NSURL(string: (dic["mainImage"] as? String)!)! as URL, placeholderImage: UIImage(named: "nopic.jpg"))
+        let price = dic["sellingPrice"] as? Float64
+        let priceStr = String(format: "¥%.2f", price!)
+        self.priceLabel.text = priceStr
+    }
 }
+
+
