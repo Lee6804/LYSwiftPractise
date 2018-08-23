@@ -32,10 +32,12 @@ class TypeModel: NSObject {
     
     var name:NSString?
     var isSelected:Bool?
+    var isEnable:Bool?
     
     init(dic:NSDictionary) {
         self.name = dic["name"] as? NSString
         self.isSelected = dic["isSelected"] as? Bool
+        self.isEnable = dic["isEnable"] as? Bool
     }
 }
 

@@ -14,6 +14,7 @@
 		B01AC79D2122CC430090680F /* MovieActorInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01AC79C2122CC430090680F /* MovieActorInfoVC.swift */; };
 		B01AC79F2122E3C10090680F /* MainDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01AC79E2122E3C10090680F /* MainDetailVC.swift */; };
 		B01AC7A12122E4530090680F /* product.json in Resources */ = {isa = PBXBuildFile; fileRef = B01AC7A02122E4530090680F /* product.json */; };
+		B01D6038212E5FF20094DA24 /* ORSKUDataFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = B01D6036212E5FF20094DA24 /* ORSKUDataFilter.m */; };
 		B021FD042123B4C500502C74 /* GoodsDetailHeadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B021FD032123B4C500502C74 /* GoodsDetailHeadView.swift */; };
 		B021FD062123C5DC00502C74 /* GoodsEvaluationListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B021FD052123C5DC00502C74 /* GoodsEvaluationListCell.swift */; };
 		B021FD082123D28100502C74 /* GoodsDetailFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B021FD072123D28100502C74 /* GoodsDetailFooterView.swift */; };
@@ -58,6 +59,8 @@
 		B01AC79C2122CC430090680F /* MovieActorInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieActorInfoVC.swift; sourceTree = "<group>"; };
 		B01AC79E2122E3C10090680F /* MainDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDetailVC.swift; sourceTree = "<group>"; };
 		B01AC7A02122E4530090680F /* product.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = product.json; sourceTree = "<group>"; };
+		B01D6036212E5FF20094DA24 /* ORSKUDataFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORSKUDataFilter.m; sourceTree = "<group>"; };
+		B01D6037212E5FF20094DA24 /* ORSKUDataFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSKUDataFilter.h; sourceTree = "<group>"; };
 		B021FD032123B4C500502C74 /* GoodsDetailHeadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailHeadView.swift; sourceTree = "<group>"; };
 		B021FD052123C5DC00502C74 /* GoodsEvaluationListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsEvaluationListCell.swift; sourceTree = "<group>"; };
 		B021FD072123D28100502C74 /* GoodsDetailFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailFooterView.swift; sourceTree = "<group>"; };
@@ -210,6 +213,8 @@
 		B08AE7C52119729700466CED /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B01D6037212E5FF20094DA24 /* ORSKUDataFilter.h */,
+				B01D6036212E5FF20094DA24 /* ORSKUDataFilter.m */,
 				B0FA6402212551CC00F51054 /* GoodsModel.swift */,
 			);
 			path = Model;
@@ -474,6 +479,7 @@
 				B0264F1021213795001980AA /* MovieActorsCollectionViewCell.swift in Sources */,
 				B0FA6403212551CC00F51054 /* GoodsModel.swift in Sources */,
 				B0FA63FB21251CAC00F51054 /* GoodsTypeCollectionViewCell.swift in Sources */,
+				B01D6038212E5FF20094DA24 /* ORSKUDataFilter.m in Sources */,
 				B01AC79721226F0F0090680F /* MovieCommentListCell.swift in Sources */,
 				B021FD082123D28100502C74 /* GoodsDetailFooterView.swift in Sources */,
 				B01AC79B2122BCE80090680F /* MovieDetailCommentsModel.swift in Sources */,

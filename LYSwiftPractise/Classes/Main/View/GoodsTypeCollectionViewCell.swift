@@ -10,7 +10,7 @@ import UIKit
 
 @objc protocol GoodsTypeCollectionViewCellDelegate:NSObjectProtocol {
     
-    @objc optional func reloadCol()
+    @objc optional func reloadCol(indexPath:NSIndexPath)
 }
 
 class GoodsTypeCollectionViewCell: UICollectionViewCell {
@@ -24,6 +24,7 @@ class GoodsTypeCollectionViewCell: UICollectionViewCell {
         nBtn.setTitle("", for: UIControlState.normal)
         nBtn.setTitleColor(UIColor.darkGray, for: UIControlState.normal)
         nBtn.setTitleColor(MAINCOLOR, for: UIControlState.selected)
+        nBtn.setTitleColor(UIColor.lightGray, for: UIControlState.disabled)
         nBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         nBtn.addTarget(self, action: #selector(typeBtnClick(sender:)), for: UIControlEvents.touchUpInside)
         nBtn.layer.cornerRadius = 5
@@ -54,7 +55,7 @@ class GoodsTypeCollectionViewCell: UICollectionViewCell {
         
         self.model?.isSelected = sender.isSelected ? false : true
         
-        self.delegate?.reloadCol!()
+        self.delegate?.reloadCol!(indexPath: self.indexPath!)
     }
 }
 
@@ -68,7 +69,9 @@ extension GoodsTypeCollectionViewCell {
         self.indexPath = indexPath
         self.typeBtn.setTitle(model.name! as String, for: UIControlState.normal)
         self.typeBtn.isSelected = model.isSelected!
-        self.typeBtn.layer.borderColor = model.isSelected == true ? MAINCOLOR.cgColor : UIColor.darkGray.cgColor;
+        self.typeBtn.isEnabled = model.isEnable!;
+        
+        self.typeBtn.layer.borderColor = model.isSelected == true ? MAINCOLOR.cgColor : (model.isEnable == true ? UIColor.darkGray.cgColor : UIColor.lightGray.cgColor);
     }
     
     func colCellWidth(model:TypeModel) -> CGFloat {

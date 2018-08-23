@@ -14,6 +14,9 @@ class ChooseGoodsTypeView: UIView {
     var infoDic:NSDictionary = NSDictionary()
     var stockNum:NSInteger = NSInteger()
     var dataArr:NSMutableArray = NSMutableArray()
+    var skuData:NSMutableArray = NSMutableArray()
+    
+    var filter:ORSKUDataFilter = ORSKUDataFilter()
     
     //MARK:lazy
     fileprivate lazy var typeWindow:UIWindow = { [unowned self] in
@@ -115,6 +118,11 @@ class ChooseGoodsTypeView: UIView {
         super.init(frame: frame)
         
         setupUI()
+        
+//        self.filter.dataSource = self
+        
+        
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -260,6 +268,22 @@ extension ChooseGoodsTypeView:UICollectionViewDelegate, UICollectionViewDataSour
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TYPECELL", for: indexPath) as! GoodsTypeCollectionViewCell
         let sectionModel = self.dataArr[indexPath.section] as! TypeSectionModel
         let model = sectionModel.data![indexPath.row] as! TypeModel
+    
+        if self.filter.availableIndexPathsSet.contains(indexPath) {
+            
+            model.isSelected = false
+            model.isEnable = true
+        }else{
+            
+            model.isSelected = false
+            model.isEnable = false
+        }
+        
+        if self.filter.selectedIndexPaths.contains(indexPath) {
+            model.isSelected = true
+            model.isEnable = true
+        }
+        
         cell.refreshUI(model: model, indexPath: indexPath as NSIndexPath, dataArr: self.dataArr)
         cell.delegate = self
         return cell
@@ -272,7 +296,7 @@ extension ChooseGoodsTypeView:UICollectionViewDelegate, UICollectionViewDataSour
 
 extension ChooseGoodsTypeView:GoodsTypeCollectionViewCellDelegate {
     
-    func reloadCol() {
+    func reloadCol(indexPath:NSIndexPath) {
         //kindTitleArr用于存放 类型名称 如果全部分类都已经选择了一个则数组位空 显示的就是 已选某些种类
         //kindArr用于存放已选的种类 如果kindArr的count和self.dataArr的count相等 则表示所有分类类型都已经选择了 然后再去根据原始的skus数据进行对比 将相应的信息刷新
         let kindTitleArr:NSMutableArray = NSMutableArray()
@@ -308,23 +332,7 @@ extension ChooseGoodsTypeView:GoodsTypeCollectionViewCellDelegate {
         //排除不可选分类类型
         if kindArr.count != 0 && kindArr.count != self.dataArr.count {
             
-            let noExitArr:NSMutableArray = NSMutableArray()
             
-            for m in 0..<kindArr.count{
-                let skuArr = infoDic["skus"] as? NSArray
-                for i in 0..<skuArr!.count {
-                    let skuDetailDic = skuArr![i] as? NSDictionary
-                    let attriArr = skuDetailDic!["attributes"] as? NSArray
-                    for j in 0..<attriArr!.count{
-                        let dict = attriArr![j] as? NSDictionary
-                        if kindArr[m] as? String == dict!["value"] as? String {
-                        
-//                            let dict1 = attriArr![j+1] as? NSDictionary
-                            print(message: dict!["value"])
-                        }
-                    }
-                }
-            }
         }
         
         
@@ -350,6 +358,10 @@ extension ChooseGoodsTypeView:GoodsTypeCollectionViewCellDelegate {
                 }
             }
         }
+        
+//        [weakSelf.filter didSelectedPropertyWithIndexPath:indexPath];
+        self.filter.didSelectedProperty(with: indexPath as IndexPath?)
+        
         self.collectionView.reloadData()
     }
 }
@@ -363,6 +375,7 @@ extension ChooseGoodsTypeView {
         self.infoDic = infoDic
         
         dataArr.removeAllObjects()
+        skuData.removeAllObjects()
         
         //更新数据
         self.updataView(dic: infoDic)
@@ -374,14 +387,25 @@ extension ChooseGoodsTypeView {
         for i in 0..<skuArr!.count {
             let skuDetailDic = skuArr![i] as? NSDictionary
             let attriArr = skuDetailDic!["attributes"] as? NSArray
+
+            let addSkuDic:NSMutableDictionary = NSMutableDictionary()
+            let addSkuArr:NSMutableArray = NSMutableArray()
+            
             for j in 0..<attriArr!.count{
                 let dict = attriArr![j] as? NSDictionary
                 let mutDic:NSMutableDictionary = NSMutableDictionary()
+                addSkuArr.add(dict!["value"] as Any)
                 mutDic.setObject(dict!["key"] as Any, forKey: "kind" as NSCopying)
                 if arr1.contains(mutDic) == false {
                     arr1.add(mutDic)
                 }
             }
+            
+            addSkuDic.setObject(addSkuArr.componentsJoined(by: ","), forKey: "attributes" as NSCopying)
+            addSkuDic.setObject(skuDetailDic!["mainImage"] as Any, forKey: "mainImage" as NSCopying)
+            addSkuDic.setObject(skuDetailDic!["sellingPrice"] as Any, forKey: "sellingPrice" as NSCopying)
+            addSkuDic.setObject(skuDetailDic!["stockQuantity"] as Any, forKey: "stockQuantity" as NSCopying)
+            self.skuData.add(addSkuDic)
         }
         
 //        print(message: arr1)
@@ -399,6 +423,7 @@ extension ChooseGoodsTypeView {
                     if dict!["key"] as? String == nDic!["kind"] as? String{
                         addDic.setObject(dict!["value"] as Any, forKey: "name" as NSCopying)
                         addDic.setObject(false, forKey: "isSelected" as NSCopying)
+                        addDic.setObject(true, forKey: "isEnable" as NSCopying)
                         if nArr.contains(addDic as Any) == false {
                             nArr.add(addDic)
                         }
@@ -410,8 +435,9 @@ extension ChooseGoodsTypeView {
                 arr1.add(nDic as Any)
             }
         }
-//        print(message: arr1)
         
+//        print(message: arr1)
+
         for i in 0..<arr1.count {
             let dic = arr1[i] as! NSDictionary
             let sectionModel = TypeSectionModel.init(dic: dic)
@@ -425,6 +451,8 @@ extension ChooseGoodsTypeView {
         }
         
         self.choosedLabel.text = "请选择 \(kindArr.componentsJoined(by: " "))"
+        
+        self.filter = ORSKUDataFilter.init(dataSource: self)
         
         self.collectionView.reloadData()
     }
@@ -440,4 +468,38 @@ extension ChooseGoodsTypeView {
     }
 }
 
+extension ChooseGoodsTypeView:ORSKUDataFilterDataSource {
+    
+    func numberOfSectionsForProperties(in filter: ORSKUDataFilter!) -> Int {
+        return self.dataArr.count;
+    }
+    
+    func filter(_ filter: ORSKUDataFilter!, propertiesInSection section: Int) -> [Any]! {
+
+        let sectionModel:TypeSectionModel = self.dataArr[section] as! TypeSectionModel
+        let filterArr:NSMutableArray = NSMutableArray()
+        for i in 0..<sectionModel.kindValue!.count {
+            let dic = sectionModel.kindValue![i] as? NSDictionary
+            filterArr.add(dic!["name"] as Any)
+        }
+        return filterArr as! [Any]
+    }
+    
+    func numberOfConditions(in filter: ORSKUDataFilter!) -> Int {
+        return self.skuData.count;
+    }
+    
+    func filter(_ filter: ORSKUDataFilter!, conditionForRow row: Int) -> [Any]! {
+        
+        let dic = self.skuData[row] as? NSDictionary
+        let attributes = dic!["attributes"] as? NSString
+        return attributes?.components(separatedBy: ",")
+    }
+    
+    func filter(_ filter: ORSKUDataFilter!, resultOfConditionForRow row: Int) -> Any! {
+        let dic = self.skuData[row] as? NSDictionary;
+        return ["price":dic!["sellingPrice"],"store":dic!["stockQuantity"],"img":dic!["mainImage"]]
+    }
+
+}
 
