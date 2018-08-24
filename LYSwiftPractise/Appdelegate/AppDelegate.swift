@@ -28,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared().shouldResignOnTouchOutside = true
         IQKeyboardManager.shared().isEnableAutoToolbar = false
         
+        Thread.sleep(forTimeInterval: 2.0)
+        
         return true
     }
 

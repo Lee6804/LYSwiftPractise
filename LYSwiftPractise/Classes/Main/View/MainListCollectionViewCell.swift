@@ -17,33 +17,58 @@ class MainListCollectionViewCell: UICollectionViewCell {
         return vImg
     }()
     
-    fileprivate lazy var headImg: UIImageView = { [unowned self] in
-        let vImg:UIImageView = UIImageView()
-        vImg.contentMode = UIViewContentMode.scaleAspectFill
-        self.contentView.addSubview(vImg)
-        return vImg
-    }()
-    
-    fileprivate lazy var nameLabel: UILabel = { [unowned self] in
+    fileprivate lazy var catentdescLabel: UILabel = { [unowned self] in
         let vLabel:UILabel = UILabel()
         vLabel.font = UIFont.systemFont(ofSize: 13)
         self.contentView.addSubview(vLabel)
         return vLabel
     }()
     
-    fileprivate lazy var titleLabel: UILabel = { [unowned self] in
+    fileprivate lazy var appAttrTitleLabel: UILabel = { [unowned self] in
         let vLabel:UILabel = UILabel()
-        vLabel.font = UIFont.systemFont(ofSize: 10)
+        vLabel.font = UIFont.systemFont(ofSize: 13)
         vLabel.textColor = UIColor.darkGray
         self.contentView.addSubview(vLabel)
         return vLabel
     }()
     
+    fileprivate lazy var insigniaLabel: UILabel = { [unowned self] in
+        let vLabel:UILabel = UILabel()
+        vLabel.text = "¥"
+        vLabel.font = UIFont.boldSystemFont(ofSize: 10)
+        vLabel.textColor = UIColor.orange
+        self.contentView.addSubview(vLabel)
+        return vLabel
+        }()
+    
+    fileprivate lazy var priceLabel: UILabel = { [unowned self] in
+        let vLabel:UILabel = UILabel()
+        vLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        vLabel.textColor = UIColor.orange
+        self.contentView.addSubview(vLabel)
+        return vLabel
+        }()
+    
+    fileprivate lazy var evaluationLabel: UILabel = { [unowned self] in
+        let vLabel:UILabel = UILabel()
+        vLabel.font = UIFont.systemFont(ofSize: 10)
+        vLabel.textColor = UIColor.darkGray
+        self.contentView.addSubview(vLabel)
+        return vLabel
+        }()
+    
+    fileprivate lazy var evaluationPercentLabel: UILabel = { [unowned self] in
+        let vLabel:UILabel = UILabel()
+        vLabel.font = UIFont.systemFont(ofSize: 10)
+        vLabel.textColor = UIColor.darkGray
+        self.contentView.addSubview(vLabel)
+        return vLabel
+        }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.contentView.backgroundColor = UIColor.white
-        self.contentView.layer.cornerRadius = 5
         setupUI()
     }
     
@@ -52,18 +77,47 @@ class MainListCollectionViewCell: UICollectionViewCell {
     }
     
     func setupUI() {
-        self.iconImg.frame = CGRect(x: 0, y: 0, width: self.contentView.bounds.width, height: self.contentView.bounds.width)
-        let corners: UIRectCorner = [.topLeft,.topRight]
-        self.iconImg.corner(byRoundingCorners: corners, radii: 5)
         
-        self.headImg.frame = CGRect(x: 8, y: self.iconImg.frame.maxY + 8, width: 44, height: 44)
-        self.headImg.layer.cornerRadius = 22
-        self.headImg.layer.masksToBounds = true
+        self.iconImg.snp.makeConstraints { (make) in
+            make.top.width.equalToSuperview()
+            make.height.equalTo(self.contentView.snp.width)
+        }
         
-        self.nameLabel.frame = CGRect(x: self.headImg.frame.maxX + 8, y: self.headImg.frame.origin.y, width: self.contentView.bounds.width - self.headImg.frame.maxX - 16 , height: 20)
+        self.catentdescLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.iconImg.snp.bottom).offset(5)
+            make.left.equalTo(self.contentView.snp.left).offset(10)
+            make.right.equalTo(self.contentView.snp.right).offset(-10)
+            make.height.equalTo(20)
+        }
         
-        self.titleLabel.frame = CGRect(x: self.headImg.frame.maxX + 8, y: self.nameLabel.frame.maxY + 3, width: self.contentView.bounds.width - self.headImg.frame.maxX - 16 , height: 20)
+        self.appAttrTitleLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.catentdescLabel.snp.bottom).offset(5)
+            make.left.right.height.equalTo(self.catentdescLabel)
+        }
         
+        self.insigniaLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.appAttrTitleLabel.snp.bottom).offset(8)
+            make.left.equalTo(self.catentdescLabel)
+            make.width.equalTo(10)
+            make.height.equalTo(17)
+        }
+        
+        self.priceLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.appAttrTitleLabel.snp.bottom).offset(5)
+            make.left.equalTo(self.insigniaLabel.snp.right)
+            make.right.height.equalTo(self.catentdescLabel)
+        }
+        
+        self.evaluationLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.priceLabel.snp.bottom).offset(5)
+            make.left.height.equalTo(self.catentdescLabel)
+        }
+        
+        self.evaluationPercentLabel.snp.makeConstraints { (make) in
+            make.centerY.equalTo(self.evaluationLabel)
+            make.left.equalTo(self.evaluationLabel.snp.right).offset(10)
+            make.right.height.equalTo(self.catentdescLabel)
+        }
     }
 }
 
@@ -80,11 +134,15 @@ extension UIView {
 
 extension MainListCollectionViewCell {
     
-    func refreshUI(info: NSDictionary) {
-        self.iconImg.image = UIImage(named: info["iconImg"] as! String)
-        self.headImg.image = UIImage(named: info["headImg"] as! String)
-        self.nameLabel.text = info["name"] as? String
-        self.titleLabel.text = info["title"] as? String
+    func refreshUI(model: GoodsListModel) {
+        
+        self.iconImg.sd_setImage(with: NSURL(string: "https:\(model.dynamicImg ?? "")")! as URL, placeholderImage: UIImage(named: "nopic.jpg"))
+        self.priceLabel.text = model.price! as String
+        self.evaluationLabel.text = "\(model.extenalFiledsModel?.commentShow ?? "0")评价"
+        self.evaluationPercentLabel.text = "\(model.praiseRate ?? "100%")好评"
+        self.catentdescLabel.text = "\(model.catentdesc ?? "")"
+        let appAttrTitleStr = model.extenalFiledsModel?.appAttrTitle?.componentsJoined(by: "|")
+        self.appAttrTitleLabel.text = appAttrTitleStr
     }
 }
 

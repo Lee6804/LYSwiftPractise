@@ -35,14 +35,6 @@ class MainDetailVC: BaseViewController {
         let jsonDic:NSDictionary = try! JSONSerialization.jsonObject(with: data! as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
         
         self.jsonDic = jsonDic
-//        print(message: jsonDic)
-//        let arr = jsonDic["subjects"] as? NSArray
-//        for i in 0..<arr!.count {
-//            let model = DBMovieTopListModel()
-//            model.initWithDic(infoDic: (arr![i] as? NSDictionary)!)
-//            dataArr.append(model)
-//        }
-//        self.tableView.reloadData()
     }
     
    
@@ -51,7 +43,7 @@ class MainDetailVC: BaseViewController {
 
         // Do any additional setup after loading the view.
         
-        self.navigationItem.title = "小米8"
+//        self.navigationItem.title = "小米8"
         
         self.tableView.frame = CGRect(x: 0, y: 0, width: MainWidth, height: MainHeight - TopNavBarHeight - 50)
         self.tableView.tableHeaderView = self.headView

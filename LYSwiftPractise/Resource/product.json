@@ -229,6 +229,24 @@
           "value": "金色"
         }
       ]
-    }
+    },
+   {
+   "id": "12",
+   "itemId": "101",
+   "mainImage": "https://i8.mifile.cn/a1/pms_1527735163.02784072!560x560.jpg",
+   "originPrice": 3299.00,
+   "sellingPrice": 3299.00,
+   "stockQuantity": 9,
+   "attributes": [
+      {
+      "key": "版本",
+      "value": "6GB+256GB 全网通"
+      },
+      {
+      "key": "颜色",
+      "value": "金色"
+      }
+    ]
+   }
   ]
 }

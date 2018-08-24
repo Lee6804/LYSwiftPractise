@@ -18,14 +18,30 @@
                         <viewControllerLayoutGuide type="bottom" id="DD3-dk-kql"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swift.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="ifF-3Z-EhA">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="DD3-dk-kql" firstAttribute="top" secondItem="ifF-3Z-EhA" secondAttribute="bottom" id="4yW-YY-TXV"/>
+                            <constraint firstItem="ifF-3Z-EhA" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="Pm6-1Y-0SZ"/>
+                            <constraint firstItem="ifF-3Z-EhA" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="aKB-dd-5nE"/>
+                            <constraint firstAttribute="trailing" secondItem="ifF-3Z-EhA" secondAttribute="trailing" id="qKs-EY-9Am"/>
+                        </constraints>
                     </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="480"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52.799999999999997" y="374.21289355322341"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="swift.jpg" width="200" height="200"/>
+    </resources>
 </document>

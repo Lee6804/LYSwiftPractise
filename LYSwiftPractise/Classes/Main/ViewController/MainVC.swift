@@ -11,12 +11,14 @@ import UIKit
 class MainVC: UIViewController {
 
     
+    var data:NSMutableArray = NSMutableArray()
+    
     fileprivate lazy var collectionView: UICollectionView = { [weak self] in
         
         let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 5
-        layout.minimumInteritemSpacing = 5
-        layout.sectionInset = UIEdgeInsetsMake(10, 5, 10, 5)
+        layout.minimumLineSpacing = 8
+        layout.minimumInteritemSpacing = 4
+        layout.sectionInset = UIEdgeInsetsMake(8, 0, 8, 0)
         
         let colV = UICollectionView(frame: CGRect(x: 0, y: 0, width: MainWidth, height: MainHeight - TopNavBarHeight), collectionViewLayout: layout)
         colV.delegate = self
@@ -25,14 +27,6 @@ class MainVC: UIViewController {
         colV.register(MainListCollectionViewCell.self, forCellWithReuseIdentifier: "MAINLISTCELL")
         return colV
     }()
-    
-    var arr: [NSObject] = [NSObject]()
-    let dic1 = ["iconImg":"1.jpg","headImg":"headImg.jpg","name":"天王盖地虎","title":"世界本无路,走的人多了,也就成了路"]
-    let dic2 = ["iconImg":"2.jpg","headImg":"headImg.jpg","name":"宝塔镇河妖","title":"阿西吧"]
-    let dic3 = ["iconImg":"3.jpg","headImg":"headImg.jpg","name":"阿枫","title":"在下良辰,请给个面子"]
-    let dic4 = ["iconImg":"4.jpg","headImg":"headImg.jpg","name":"流川枫","title":"无聊透顶,哎"]
-    let dic5 = ["iconImg":"2.jpg","headImg":"headImg.jpg","name":"樱木","title":"来来来,喝完一杯再来三杯"]
-    let dic6 = ["iconImg":"3.jpg","headImg":"headImg.jpg","name":"绝","title":"绝地反击"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,19 +38,29 @@ class MainVC: UIViewController {
         self.navigationController?.navigationBar.barTintColor = MAINCOLOR
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
 
-        arr.append(dic1 as NSObject)
-        arr.append(dic2 as NSObject)
-        arr.append(dic3 as NSObject)
-        arr.append(dic4 as NSObject)
-        arr.append(dic5 as NSObject)
-        arr.append(dic6 as NSObject)
-        
         self.view.addSubview(self.collectionView)
         
+        loadData()
     }
     
+    func loadData() {
+        
+        let path = Bundle.main.path(forResource:"content", ofType: "json")
+        let data = NSData(contentsOfFile: path!)
+        let jsonDic:NSDictionary = try! JSONSerialization.jsonObject(with: data! as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+        
+        print(message: jsonDic)
+        
+        let arr = jsonDic["goods"] as? NSArray
+        for i in 0..<arr!.count {
+            let dic = arr![i] as? NSDictionary
+            let model = GoodsListModel.init(dic: dic!)
+            self.data.add(model)
+        }
+        
+        self.collectionView.reloadData()
+    }
     
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -82,22 +86,24 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return arr.count
+        return data.count
     }
    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize.init(width: (MainWidth-15)/2, height: (MainWidth-15)/2 + 60)
+        return CGSize.init(width: (MainWidth-8)/2, height: (MainWidth-8)/2 + 110)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MAINLISTCELL", for: indexPath) as! MainListCollectionViewCell
-        cell.refreshUI(info: arr[indexPath.item] as! NSDictionary)
+        let model = self.data[indexPath.row] as? GoodsListModel
+        cell.refreshUI(model: model!)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailVC = MainDetailVC()
-        detailVC.title = (arr[indexPath.item] as! NSDictionary)["name"] as? String
+        let model = self.data[indexPath.row] as? GoodsListModel
+        detailVC.title = "\(model?.extenalFiledsModel?.paramValue ?? "")"
         self.navigationController?.pushViewController(detailVC, animated: true)
         
     }

@@ -59,3 +59,35 @@ class TypeSectionModel: NSObject {
         }
     }
 }
+
+class GoodsListModel: NSObject {
+    
+    var price:NSString?
+    var dynamicImg:NSString?
+    var praiseRate:NSString?
+    var extenalFileds:NSDictionary?
+    var catentdesc:NSString?
+    var extenalFiledsModel:GoodsListExtenalFiledsModel?
+    
+    init(dic:NSDictionary) {
+        self.price = dic["price"] as? NSString
+        self.dynamicImg = dic["dynamicImg"] as? NSString
+        self.praiseRate = dic["praiseRate"] as? NSString
+        self.extenalFileds = dic["extenalFileds"] as? NSDictionary
+        self.catentdesc = dic["catentdesc"] as? NSString
+        self.extenalFiledsModel = GoodsListExtenalFiledsModel.init(dic: self.extenalFileds!)
+    }
+}
+
+class GoodsListExtenalFiledsModel: NSObject {
+    
+    var commentShow:NSString?
+    var paramValue:NSString?
+    var appAttrTitle:NSArray?
+    
+    init(dic:NSDictionary) {
+        self.commentShow = dic["commentShow"] as? NSString
+        self.paramValue = dic["paramValue"] as? NSString
+        self.appAttrTitle = dic["appAttrTitle"] as? NSArray
+    }
+}
