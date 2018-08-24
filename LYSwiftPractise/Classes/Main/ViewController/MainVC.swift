@@ -25,6 +25,7 @@ class MainVC: UIViewController {
         colV.dataSource = self
         colV.backgroundColor = BACKGROUNGCOLOR
         colV.register(MainListCollectionViewCell.self, forCellWithReuseIdentifier: "MAINLISTCELL")
+        colV.register(MainCollectionReusableHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
         return colV
     }()
     
@@ -49,7 +50,7 @@ class MainVC: UIViewController {
         let data = NSData(contentsOfFile: path!)
         let jsonDic:NSDictionary = try! JSONSerialization.jsonObject(with: data! as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
         
-        print(message: jsonDic)
+//        print(message: jsonDic)
         
         let arr = jsonDic["goods"] as? NSArray
         for i in 0..<arr!.count {
@@ -83,6 +84,23 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        var reusableView = UICollectionReusableView()
+        
+        if kind == UICollectionElementKindSectionHeader {
+            
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) as? MainCollectionReusableHeaderView
+            reusableView = headerView!
+        }
+        return reusableView
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        return CGSize(width: MainWidth, height: MainWidth/2)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

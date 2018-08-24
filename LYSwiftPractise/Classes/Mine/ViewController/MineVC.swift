@@ -84,6 +84,7 @@ extension MineVC:UITableViewDelegate, UITableViewDataSource {
         }
         let rowArr = arr[indexPath.section]
         cell?.textLabel?.text = rowArr[indexPath.row]
+        cell?.textLabel?.font = UIFont.systemFont(ofSize: 15)
         cell?.imageView?.image = UIImage(named: rowArr[indexPath.row])
         return cell!
     }

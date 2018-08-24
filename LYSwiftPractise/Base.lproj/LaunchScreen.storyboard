@@ -42,6 +42,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="swift.jpg" width="200" height="200"/>
+        <image name="swift.jpg" width="128" height="128"/>
     </resources>
 </document>
