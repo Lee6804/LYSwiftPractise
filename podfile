@@ -9,5 +9,6 @@ pod 'WZRootNavigationController'
 pod 'SDWebImage'
 pod 'SDCycleScrollView'
 pod 'IQKeyboardManager'
+pod 'MJRefresh'
 
 end

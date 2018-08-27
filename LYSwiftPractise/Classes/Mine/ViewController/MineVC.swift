@@ -20,6 +20,9 @@ class MineVC: UIViewController {
         return nTab
     }()
     
+    var mjHeader:MJRefreshNormalHeader = MJRefreshNormalHeader()
+    var mjFooter:MJRefreshBackNormalFooter = MJRefreshBackNormalFooter()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,6 +36,28 @@ class MineVC: UIViewController {
         self.view.backgroundColor = BACKGROUNGCOLOR
         
         self.view.addSubview(self.tableView)
+        
+        mjHeader.setRefreshingTarget(self, refreshingAction: #selector(headerRefresh))
+        mjFooter.setRefreshingTarget(self, refreshingAction: #selector(loadMoreData))
+        
+        self.tableView.mj_header = mjHeader
+        self.tableView.mj_footer = mjFooter
+    }
+    
+    func headerRefresh() {
+     
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+            
+            self.tableView.mj_header.endRefreshing()
+        }
+    }
+    
+    func loadMoreData() {
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+            
+            self.tableView.mj_footer.endRefreshing()
+        }
     }
 
     override func didReceiveMemoryWarning() {

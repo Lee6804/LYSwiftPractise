@@ -22,16 +22,9 @@ class MessageVC: UIViewController {
         return tabV
     }()
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-//    }
-//    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-//    }
-
+    var mjHeader:MJRefreshNormalHeader = MJRefreshNormalHeader()
+    var mjFooter:MJRefreshBackNormalFooter = MJRefreshBackNormalFooter()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -43,9 +36,13 @@ class MessageVC: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
         self.view.addSubview(self.tableView)
-        self.navigationController?.delegate = self as? UINavigationControllerDelegate
         self.loadData()
         
+        mjHeader.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
+        mjHeader.lastUpdatedTimeLabel.isHidden = true
+        mjFooter.setRefreshingTarget(self, refreshingAction: #selector(loadMoreData))
+        self.tableView.mj_header = mjHeader
+        self.tableView.mj_footer = mjFooter
     }
 
     func loadData() {
@@ -67,9 +64,23 @@ class MessageVC: UIViewController {
         self.tableView.reloadData()
     }
     
-    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
+    func refreshData() {
         
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+            self.dataArr .removeAll()
+            self.loadData()
+            self.tableView.mj_header.endRefreshing()
+        }
     }
+    
+    func loadMoreData() {
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+            
+            self.tableView.mj_footer.endRefreshing()
+        }
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
